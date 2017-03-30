@@ -1,5 +1,3 @@
-
-
 shinyServer(function(input, output) {
   
   data <- reactiveValues(df = hs, items = NULL, puolueet = NULL, groups = NULL)
@@ -61,7 +59,7 @@ shinyServer(function(input, output) {
                 value = 1, step = 5)
   })
   
-  # input selection summary for title
+  # input selection summary for plot title
   selections <- reactive({
     q <-  paste(range(show_items()), collapse = "-")
     paste0("HS vaalikone (kys. ",q,"). ", input$Kunta, ": ", valitut_puolueet())
@@ -77,12 +75,16 @@ shinyServer(function(input, output) {
   }
   
   # plot the (subsetted) question item distributions  
-  output$likert <- renderPlot({
-    if(!is.null(data$items) && !is.null(input$which) && input$Kunta!="") {
-      p <- plot_likert(data$items[, show_items()], data$groups)
-      p
-    }
-  }, height = 1600)
+  # wrap around observer to make plot height dynamic
+  observe({
+    height <- 400 + length(unique(data$groups))*200
+    output$likert <- renderPlot({
+      if(!is.null(data$items) && !is.null(input$which) && input$Kunta!="") {
+        p <- plot_likert(data$items[, show_items()], data$groups)
+        p
+      }
+    }, height = height)
+  })
   
   # plot download
   output$downloadLikert <- downloadHandler(
@@ -96,4 +98,5 @@ shinyServer(function(input, output) {
       dev.off()
     }
   )
+  
 })
