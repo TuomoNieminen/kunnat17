@@ -78,7 +78,7 @@ shinyServer(function(input, output) {
   # plot the (subsetted) question item distributions  
   # wrap around observer to make output plot height dynamic
   observe({
-    height <- 400 + length(unique(data$groups))*200
+    height <- 500 + length(unique(data$groups))*200
     
     output$likert <- renderPlot({
       if(!is.null(data$items) && !is.null(input$question_slider) && input$Kunta!="") {
