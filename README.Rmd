@@ -6,7 +6,7 @@
 
 Welcome to the kunnat17 repository. This simple interactive app allows the user to analyze data from Helsingin Sanomat (HS) voting aid application (vaalikone) for the municipal elections of 2017 in Finland. 
 
-R is a programming language for data analysis. Shiny is an R library for creating interactive web applications. This repository includes the codes for an R Shiny implementation of a statistics probability calculator.
+The application is coded in R and shiny R. R is a programming language for data analysis. Shiny is an R library for creating interactive web applications. The application uses the likert R package for visualizations.
 
 # Usage
 
