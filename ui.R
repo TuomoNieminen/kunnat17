@@ -25,13 +25,13 @@ shinyUI(
                          downloadButton("downloadLikert", label = "Lataa kuva"))),
               column(4,
                     numericInput("plot_width", "ladatun kuvan leveys (px)", value = 1000),
-                    numericInput("plot_height", "ladatun kuvan pituus (px)", value = 1600)
+                    numericInput("plot_height", "ladatun kuvan pituus (px)", value = 1000)
               )),
             
             hr(),
             
             # question navigation
-            div(align = "center", uiOutput("which")),
+            div(align = "center", uiOutput("question_slider")),
             
             hr(),
             

@@ -14,7 +14,7 @@ shinyServer(function(input, output) {
     }
   })
   
-  # filter out other than selected party
+  # define groups by selected parties
   observe({
     if("Kaikki" %in% input$Puolue | is.null(input$Puolue)) {
       data$groups <- NULL
@@ -25,7 +25,8 @@ shinyServer(function(input, output) {
     }
   })
   
-  # party selection widget
+  # dynamic party selection widget. 
+  # shows only parties that have candidates in the selected municipality
   output$Puolue <- renderUI({ 
     selectizeInput("Puolue", "Valitse yksi tai useampi puolue vertailtavaksi (tai 'Kaikki')", 
                    choices = c("Kaikki", data$puolueet), 
@@ -33,7 +34,7 @@ shinyServer(function(input, output) {
                    selected = "Kaikki")
   })
   
-  # selected parties
+  # selected parties and the number of candidates in them
   valitut_puolueet <- reactive({
     if(is.null(data$groups)) {
       groups <- c("Kaikki" = nrow(data$items))
@@ -46,15 +47,15 @@ shinyServer(function(input, output) {
   
   # selected question column indices
   show_items <- reactive({
-    start <- input$which
+    start <- input$question_slider
     stop <- min(start + 4, ncol(data$items))
     start:stop
   })
   
   # question navigation
-  output$which <- renderUI({
+  output$question_slider <- renderUI({
     max <- ncol(data$items) - ncol(data$items) %% 5
-    sliderInput("which", "Käytä slideria kysymysten navigointiin", 
+    sliderInput("question_slider", "Käytä slideria kysymysten navigointiin", 
                 min = 1, max = max, ticks = T,
                 value = 1, step = 5)
   })
@@ -75,15 +76,17 @@ shinyServer(function(input, output) {
   }
   
   # plot the (subsetted) question item distributions  
-  # wrap around observer to make plot height dynamic
+  # wrap around observer to make output plot height dynamic
   observe({
     height <- 400 + length(unique(data$groups))*200
+    
     output$likert <- renderPlot({
-      if(!is.null(data$items) && !is.null(input$which) && input$Kunta!="") {
+      if(!is.null(data$items) && !is.null(input$question_slider) && input$Kunta!="") {
         p <- plot_likert(data$items[, show_items()], data$groups)
         p
       }
     }, height = height)
+    
   })
   
   # plot download
@@ -98,5 +101,4 @@ shinyServer(function(input, output) {
       dev.off()
     }
   )
-  
 })
