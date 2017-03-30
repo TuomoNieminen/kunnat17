@@ -10,11 +10,12 @@ The application is coded in R and shiny R. R is a programming language for data 
 
 # Usage
 
-The app is hosted [here](https://tuomonieminen.shinyapps.io/kunnat17/) and can also used locally from R. The app requires the R package likert to function.
+The app is hosted [here](https://tuomonieminen.shinyapps.io/kunnat17/) and can also used locally from R. The app requires the R packages likert and dplyr to function.
 
 ```
 library(devtools)
 install_github('likert', 'jbryer')
+install.packages('dplyr')
 
 library(shiny)
 runGitHub("kunnat17","TuomoNieminen")
