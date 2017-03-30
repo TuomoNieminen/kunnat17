@@ -1,0 +1,21 @@
+
+![](http://gdurl.com/RzyBi)
+
+
+# About  
+
+Welcome to the kunnat17 repository. This simple interactive app allows the user to analyze data from Helsingin Sanomat (HS) voting aid application (vaalikone) for the municipal elections of 2017 in Finland. 
+
+R is a programming language for data analysis. Shiny is an R library for creating interactive web applications. This repository includes the codes for an R Shiny implementation of a statistics probability calculator.
+
+# Usage
+
+The app is hosted [here](https://tuomonieminen.shinyapps.io/kunnat17/) and can also used locally from R. The app requires the R package likert to function.
+
+```
+library(devtools)
+install_github('likert', 'jbryer')
+
+library(shiny)
+runGitHub("kunnat17","TuomoNieminen")
+```
